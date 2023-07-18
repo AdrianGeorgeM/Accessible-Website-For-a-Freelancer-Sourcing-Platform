@@ -18,6 +18,7 @@ function photographerFactory(data) {
 
 		const pPrice = document.createElement('p');
 		pPrice.textContent = `$${price}/hour`;
+
 		const a = document.createElement('a');
 		a.href = `photographer.html?id=${id}`;
 		a.appendChild(img);
@@ -31,5 +32,7 @@ function photographerFactory(data) {
 		return article;
 	}
 
-	return { name, picture, getUserCardDOM };
+	return { name, picture, getUserCardDOM, id };
 }
+
+export { photographerFactory };

@@ -18,7 +18,28 @@
 		<main id="main">
 			<div class="photographer_section"></div>
 		</main>
-		<script src="scripts/factories/photographer.js"></script>
-		<script src="scripts/pages/index.js"></script>
+
+		<!-- Contact Form Modal -->
+		<div id="contact-modal" class="modal">
+			<div class="modal-content">
+				<h2>Contact Photographer</h2>
+				<form id="contact-form">
+					<label for="contact-name">Name:</label>
+					<input type="text" id="contact-name" required />
+
+					<label for="contact-email">Email:</label>
+					<input type="email" id="contact-email" required />
+
+					<label for="contact-message">Message:</label>
+					<textarea id="contact-message" required></textarea>
+
+					<button type="submit">Send</button>
+				</form>
+				<button id="close-modal-button">Close</button>
+			</div>
+		</div>
+
+		<script src="scripts/factories/photographer.js" type="module"></script>
+		<script src="scripts/pages/index.js" type="module"></script>
 	</body>
 </html>

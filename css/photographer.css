@@ -77,6 +77,12 @@ form input {
 .item-portrait{
     width: 200px;
     height: 200px;
-    object-fit: cover;
+
     border-radius: 100%;
+}
+.photo{
+    width: 200px;
+    height: 200px;
+    border-radius: 100%;
+    
 }

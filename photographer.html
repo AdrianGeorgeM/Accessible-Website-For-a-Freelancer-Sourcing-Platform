@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link href="css/style.css" rel="stylesheet" type="text/css" />
+		<meta charset="utf-8" />
+		<title>Fisheye</title>
+	</head>
+	<body>
+		<header>
+			<img src="assets/images/logo.png" class="logo" />
+			<h1>Photographer Name</h1>
+		</header>
+		<main>
+			<section class="media-gallery"></section>
+		</main>
+
+		<button onclick="showContactForm()">Contact Photographer</button>
+
+		<div id="contact-form" style="display: none">
+			<form onsubmit="submitContactForm(event)">
+				<label for="name">Name:</label>
+				<input type="text" id="name" name="name" required />
+
+				<label for="email">Email:</label>
+				<input type="email" id="email" name="email" required />
+
+				<label for="message">Message:</label>
+				<textarea id="message" name="message" required></textarea>
+
+				<input type="submit" value="Submit" />
+			</form>
+		</div>
+		<div id="lightbox" style="display: none">
+			<img id="lightbox-image" src="" alt="" />
+			<button onclick="closeLightbox()">Close</button>
+		</div>
+
+		<script src="scripts/photographer.js"></script>
+	</body>
+</html>

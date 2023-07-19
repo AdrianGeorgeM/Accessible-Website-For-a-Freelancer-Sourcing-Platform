@@ -178,6 +178,7 @@ select {
     background-color: #fff;
     border-radius: 5px;
     padding: 20px;
+    
 }
 
 .modal-content h2 {
@@ -244,7 +245,8 @@ select {
 #contact-modal.modal {
     display: flex;
     justify-content: center;
-    align-items: center; display: none;
+    align-items: center; 
+    display: none;
 }
 
 #close-modal-button {

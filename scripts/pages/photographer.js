@@ -5,7 +5,6 @@ function getIdFromURL() {
 	return parseInt(urlParams.get('id'));
 }
 
-// Function to create a gallery item
 function createProfileItem(item) {
 	const galleryItem = document.createElement('div');
 	galleryItem.classList.add('gallery-item');
@@ -86,8 +85,7 @@ async function generateGallery(sortBy) {
 			throw new Error(`No photographer found with ID ${photographerId}`);
 		}
 
-		const galleryItems = [];
-		galleryItems.push(createProfileItem(photographer));
+		const galleryItems = [createProfileItem(photographer)];
 
 		const mediaItems = media
 			.filter(
@@ -106,23 +104,21 @@ async function generateGallery(sortBy) {
 		} else if (sortBy === 'date') {
 			mediaItems.sort((a, b) => new Date(a.date) - new Date(b.date));
 		}
+
 		console.log(
 			'Sorted media items:',
-			mediaItems.map((item) => {
-				return {
-					title: item.title,
-					likes: item.likes,
-					price: item.price,
-					date: item.date,
-				};
-			})
+			mediaItems.map((item) => ({
+				title: item.title,
+				likes: item.likes,
+				price: item.price,
+				date: item.date,
+			}))
 		);
 
 		mediaItems.forEach((item) => {
 			galleryItems.push(createMediaItem(item));
 		});
 
-		// Create gallery
 		const galleryContainer = document.createElement('div');
 		galleryContainer.classList.add('gallery');
 

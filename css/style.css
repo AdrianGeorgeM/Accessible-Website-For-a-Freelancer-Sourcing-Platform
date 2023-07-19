@@ -48,14 +48,12 @@ select {
     width: 200px;
     height: 200px;
     object-fit: cover;
-   
 }
 
-.photo{
+.photo {
     width: 200px;
     height: 200px;
     object-fit: cover;
-   
 }
 
 .photo-item {
@@ -235,5 +233,49 @@ select {
 }
 
 #contact-button:active {
+    transform: scale(0.98);
+}
+
+/* Added styles for contact modal */
+#contact-modal {
+    display: none;
+}
+
+#contact-modal.modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#close-modal-button {
+    padding: 10px 20px;
+    background-color: #901C1C;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+#close-modal-button:focus {
+    outline: none;
+}
+
+#close-modal-button:active {
+    transform: scale(0.98);
+}
+#close-modal-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    color: #fff;
+    cursor: pointer;
+}
+
+#close-modal-button:focus {
+    outline: none;
+}
+
+#close-modal-button:active {
     transform: scale(0.98);
 }

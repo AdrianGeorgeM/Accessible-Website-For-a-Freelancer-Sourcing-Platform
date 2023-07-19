@@ -12,26 +12,19 @@
 		</header>
 		<main>
 			<section class="media-gallery">
-
 				<label for="sort-by">Sort By:</label>
-			<select id="sort-by">
-				<option value="popularity">Popularity</option>
-				<option value="title">Title</option>
-				<option value="date">Date</option>
-			</select>
-	
-			</div>
-
+				<select id="sort-by">
+					<option value="popularity">Popularity</option>
+					<option value="title">Title</option>
+					<option value="date">Date</option>
+				</select>
 				<div class="gallery-container"></div>
 			</section>
-
-			<!-- Add the photographer_section class here -->
 		</main>
 
-		<button onclick="showContactForm()">Contact Photographer</button>
+		<button id="contact-button">Contact Photographer</button>
 
-		<!-- Contact Form Modal -->
-		<!-- <div id="contact-modal" class="modal">
+		<div id="contact-modal" class="modal">
 			<div class="modal-content">
 				<h2>Contact Photographer</h2>
 				<form id="contact-form">
@@ -48,7 +41,7 @@
 				</form>
 				<button id="close-modal-button">Close</button>
 			</div>
-		</div> -->
+		</div>
 
 		<script src="scripts/pages/photographer.js" type="module"></script>
 	</body>

@@ -63,10 +63,24 @@ function createMediaItem(item) {
 	price.textContent = item.price;
 	price.classList.add('photo-price');
 
+	const likeIcon = document.createElement('span');
+	likeIcon.classList.add('like-icon');
+	likeIcon.innerHTML = '&#x2665;';
+
+	likeIcon.addEventListener('click', () => {
+		likes.textContent = parseInt(likes.textContent) + 1;
+	});
+
+	const lightboxTrigger = document.createElement('span');
+	lightboxTrigger.classList.add('lightbox-trigger');
+	lightboxTrigger.textContent = 'View';
+
 	photoItem.appendChild(media);
 	photoItem.appendChild(title);
 	photoItem.appendChild(likes);
+	photoItem.appendChild(likeIcon);
 	photoItem.appendChild(price);
+	photoItem.appendChild(lightboxTrigger);
 
 	return photoItem;
 }
@@ -148,7 +162,90 @@ generateGallery('popularity')
 		} else {
 			galleryContainer.appendChild(gallery);
 		}
+
+		const photographerName = document.getElementById('photographer-name');
+		photographerName.textContent =
+			gallery.firstChild.querySelector('.item-title').textContent;
 	})
 	.catch((error) => {
 		console.error('Error generating gallery:', error);
 	});
+
+function showLightbox() {
+	const lightbox = document.createElement('div');
+	lightbox.classList.add('lightbox');
+
+	const mediaItems = document.querySelectorAll('.photo-item');
+	const currentMediaItem = this.parentNode;
+
+	const currentIndex = Array.from(mediaItems).indexOf(currentMediaItem);
+
+	const lightboxContent = document.createElement('div');
+	lightboxContent.classList.add('lightbox-content');
+
+	const closeButton = document.createElement('span');
+	closeButton.classList.add('lightbox-close');
+	closeButton.innerHTML = '&#x2716;';
+
+	const previousButton = document.createElement('span');
+	previousButton.classList.add('lightbox-previous');
+	previousButton.innerHTML = '&#x25C0;';
+
+	const nextButton = document.createElement('span');
+	nextButton.classList.add('lightbox-next');
+	nextButton.innerHTML = '&#x25B6;';
+
+	closeButton.addEventListener('click', () => lightbox.remove());
+	previousButton.addEventListener('click', () => {
+		if (currentIndex > 0) {
+			mediaItems[currentIndex - 1].querySelector('.lightbox-trigger').click();
+		}
+	});
+	nextButton.addEventListener('click', () => {
+		if (currentIndex < mediaItems.length - 1) {
+			mediaItems[currentIndex + 1].querySelector('.lightbox-trigger').click();
+		}
+	});
+
+	lightbox.appendChild(closeButton);
+	lightbox.appendChild(previousButton);
+	lightbox.appendChild(lightboxContent);
+	lightbox.appendChild(nextButton);
+
+	document.body.appendChild(lightbox);
+}
+
+const lightboxTriggers = document.querySelectorAll('.photo-item .lightbox-trigger');
+lightboxTriggers.forEach((trigger) => {
+	trigger.addEventListener('click', showLightbox);
+});
+
+function handleContactFormSubmit(event) {
+	event.preventDefault();
+	const name = document.getElementById('contact-name').value;
+	const email = document.getElementById('contact-email').value;
+	const message = document.getElementById('contact-message').value;
+
+	console.log('Name:', name);
+	console.log('Email:', email);
+	console.log('Message:', message);
+}
+
+const contactForm = document.getElementById('contact-form');
+contactForm.addEventListener('submit', handleContactFormSubmit);
+
+function showContactForm() {
+	const contactModal = document.getElementById('contact-modal');
+	contactModal.style.display = 'block';
+}
+
+function hideContactForm() {
+	const contactModal = document.getElementById('contact-modal');
+	contactModal.style.display = 'none';
+}
+
+const contactButton = document.getElementById('contact-button');
+contactButton.addEventListener('click', showContactForm);
+
+const closeModalButton = document.getElementById('close-modal-button');
+closeModalButton.addEventListener('click', hideContactForm);

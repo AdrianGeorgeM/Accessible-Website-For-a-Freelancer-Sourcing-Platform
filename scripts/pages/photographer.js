@@ -71,7 +71,8 @@ function createMediaItem(item) {
 
 	return photoItem;
 }
-async function generateGallery() {
+
+async function generateGallery(sortBy) {
 	const photographerId = getIdFromURL();
 
 	try {
@@ -97,6 +98,26 @@ async function generateGallery() {
 				photographerName: photographer.name,
 			}));
 
+		// Sort media items
+		if (sortBy === 'popularity') {
+			mediaItems.sort((a, b) => b.likes - a.likes);
+		} else if (sortBy === 'title') {
+			mediaItems.sort((a, b) => a.title.localeCompare(b.title));
+		} else if (sortBy === 'date') {
+			mediaItems.sort((a, b) => new Date(a.date) - new Date(b.date));
+		}
+		console.log(
+			'Sorted media items:',
+			mediaItems.map((item) => {
+				return {
+					title: item.title,
+					likes: item.likes,
+					price: item.price,
+					date: item.date,
+				};
+			})
+		);
+
 		mediaItems.forEach((item) => {
 			galleryItems.push(createMediaItem(item));
 		});
@@ -113,7 +134,17 @@ async function generateGallery() {
 	}
 }
 
-generateGallery()
+async function handleSort() {
+	const sortBy = document.getElementById('sort-by').value;
+	const gallery = await generateGallery(sortBy);
+	const galleryContainer = document.querySelector('.gallery-container');
+	galleryContainer.innerHTML = '';
+	galleryContainer.appendChild(gallery);
+}
+
+document.getElementById('sort-by').addEventListener('change', handleSort);
+
+generateGallery('popularity')
 	.then((gallery) => {
 		const galleryContainer = document.querySelector('.gallery-container');
 		if (!galleryContainer) {
@@ -125,5 +156,3 @@ generateGallery()
 	.catch((error) => {
 		console.error('Error generating gallery:', error);
 	});
-
-export { generateGallery };

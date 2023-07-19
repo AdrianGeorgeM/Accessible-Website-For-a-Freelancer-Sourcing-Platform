@@ -129,14 +129,19 @@ async function generateGallery(sortBy) {
 			}))
 		);
 
-		mediaItems.forEach((item) => {
-			galleryItems.push(createMediaItem(item));
-		});
-
 		const galleryContainer = document.createElement('div');
 		galleryContainer.classList.add('gallery');
 
-		galleryItems.forEach((item) => galleryContainer.appendChild(item));
+		const fragment = document.createDocumentFragment();
+		galleryItems.forEach((item) => {
+			fragment.appendChild(item);
+		});
+
+		galleryContainer.appendChild(fragment);
+
+		mediaItems.forEach((item) => {
+			galleryContainer.appendChild(createMediaItem(item));
+		});
 
 		return galleryContainer;
 	} catch (error) {
@@ -215,9 +220,12 @@ function showLightbox() {
 	document.body.appendChild(lightbox);
 }
 
-const lightboxTriggers = document.querySelectorAll('.photo-item .lightbox-trigger');
-lightboxTriggers.forEach((trigger) => {
-	trigger.addEventListener('click', showLightbox);
+const galleryContainer = document.querySelector('.gallery-container');
+galleryContainer.addEventListener('click', (event) => {
+	const lightboxTrigger = event.target.closest('.lightbox-trigger');
+	if (lightboxTrigger) {
+		showLightbox.call(lightboxTrigger);
+	}
 });
 
 function handleContactFormSubmit(event) {

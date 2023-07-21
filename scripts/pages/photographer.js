@@ -242,6 +242,18 @@ function showLightbox() {
 	lightbox.style.display = 'flex';
 	document.body.appendChild(lightbox);
 }
+function showPrevImage(currentIndex) {
+	const mediaItems = document.querySelectorAll('.photo-item');
+	const prevIndex = (currentIndex - 1 + mediaItems.length) % mediaItems.length;
+	const prevMediaItem = mediaItems[prevIndex];
+
+	// Check if prevMediaItem exists, otherwise, start from the last media item
+	if (!prevMediaItem) {
+		mediaItems[mediaItems.length - 1].querySelector('.lightbox-trigger').click();
+	} else {
+		prevMediaItem.querySelector('.lightbox-trigger').click();
+	}
+}
 
 function showNextImage(currentIndex, totalItems) {
 	const mediaItems = document.querySelectorAll('.photo-item');

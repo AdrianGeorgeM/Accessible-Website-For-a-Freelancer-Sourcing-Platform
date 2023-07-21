@@ -1,13 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
-		<link href="css/style.css" rel="stylesheet" type="text/css" />
 		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>Photographer Page</title>
+		<link rel="stylesheet" href="css/style.css" />
 	</head>
 	<body>
-		<header>
-			<img src="assets/images/logo.png" class="logo" />
+		<header class="header">
+			<img src="assets/images/logo.png" alt="Logo" class="logo" />
 			<h1 id="photographer-name">Photographer Name</h1>
 		</header>
 		<main>
@@ -21,28 +22,28 @@
 				</select>
 				<div class="gallery-container"></div>
 			</section>
-		</main>
 
-		<button id="contact-button">Contact Photographer</button>
+			<button id="contact-button" class="contact-button">Contact Photographer</button>
 
-		<div id="contact-modal" class="modal">
-			<div class="modal-content">
-				<h2>Contact Photographer</h2>
-				<form id="contact-form">
-					<label for="contact-name">Name:</label>
-					<input type="text" id="contact-name" required />
+			<div id="contact-modal" class="modal">
+				<div class="modal-content">
+					<h2>Contact Photographer</h2>
+					<form id="contact-form">
+						<label for="contact-name">Name:</label>
+						<input type="text" id="contact-name" required />
 
-					<label for="contact-email">Email:</label>
-					<input type="email" id="contact-email" required />
+						<label for="contact-email">Email:</label>
+						<input type="email" id="contact-email" required />
 
-					<label for="contact-message">Message:</label>
-					<textarea id="contact-message" required></textarea>
+						<label for="contact-message">Message:</label>
+						<textarea id="contact-message" required></textarea>
 
-					<button type="submit">Send</button>
-				</form>
-				<button id="close-modal-button">Close</button>
+						<button type="submit">Send</button>
+					</form>
+					<button id="close-modal-button">Close</button>
+				</div>
 			</div>
-		</div>
+		</main>
 
 		<script src="scripts/pages/photographer.js" type="module"></script>
 	</body>

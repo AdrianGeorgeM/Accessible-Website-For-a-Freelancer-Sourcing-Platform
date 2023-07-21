@@ -179,6 +179,12 @@ generateGallery('popularity')
 	});
 
 function showLightbox() {
+	// Remove the existing lightbox if there is one
+	const existingLightbox = document.querySelector('.lightbox');
+	if (existingLightbox) {
+		existingLightbox.remove();
+	}
+
 	const lightbox = document.createElement('div');
 	lightbox.classList.add('lightbox');
 
@@ -223,6 +229,7 @@ function showLightbox() {
 	lightbox.appendChild(lightboxContent);
 	lightbox.appendChild(nextButton);
 
+	lightbox.style.display = 'flex'; // Add this line to show the lightbox
 	document.body.appendChild(lightbox);
 }
 

@@ -190,6 +190,10 @@ function showLightbox() {
 	const lightboxContent = document.createElement('div');
 	lightboxContent.classList.add('lightbox-content');
 
+	// Append the clone of the clicked media item to the lightbox content
+	const mediaClone = currentMediaItem.cloneNode(true);
+	lightboxContent.appendChild(mediaClone);
+
 	const closeButton = document.createElement('span');
 	closeButton.classList.add('lightbox-close');
 	closeButton.innerHTML = '&#x2716;';
@@ -221,6 +225,25 @@ function showLightbox() {
 
 	document.body.appendChild(lightbox);
 }
+
+document.addEventListener('keydown', (event) => {
+	const mediaItems = document.querySelectorAll('.photo-item');
+
+	const currentLightbox = document.querySelector('.lightbox');
+	const currentIndex = Array.from(mediaItems).indexOf(currentLightbox.firstChild);
+
+	if (event.key === 'ArrowLeft') {
+		if (currentIndex > 0) {
+			mediaItems[currentIndex - 1].querySelector('.lightbox-trigger').click();
+		}
+	} else if (event.key === 'ArrowRight') {
+		if (currentIndex < mediaItems.length - 1) {
+			mediaItems[currentIndex + 1].querySelector('.lightbox-trigger').click();
+		}
+	} else if (event.key === 'Escape') {
+		currentLightbox.remove();
+	}
+});
 
 const galleryContainer = document.querySelector('.gallery-container');
 galleryContainer.addEventListener('click', (event) => {

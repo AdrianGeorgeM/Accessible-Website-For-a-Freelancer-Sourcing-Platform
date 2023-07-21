@@ -117,6 +117,8 @@ async function generateGallery(sortBy) {
 			mediaItems.sort((a, b) => a.title.localeCompare(b.title));
 		} else if (sortBy === 'date') {
 			mediaItems.sort((a, b) => new Date(a.date) - new Date(b.date));
+		} else if (sortBy === 'price') {
+			mediaItems.sort((a, b) => a.price - b.price);
 		}
 
 		console.log(

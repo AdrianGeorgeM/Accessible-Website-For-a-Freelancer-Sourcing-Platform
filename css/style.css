@@ -3,9 +3,6 @@
 	--secondary-color: #ffffff;
 	--text-color: #901c1c;
 	--text-color-secondary: #d3573c;
-	--breakpoint-desktop: 1024px;
-	--breakpoint-tablet: 768px;
-	--breakpoint-mobile: 480px;
 }
 
 * {
@@ -23,11 +20,12 @@ body {
 
 .header {
 	display: flex;
+	flex-direction: row;
 	justify-content: space-between;
 	align-items: center;
 	padding: 20px;
-	background-color: var(--secondary-color);
-	color: var(--primary-color);
+	background-color: var(--primary-color);
+	color: var(--secondary-color);
 }
 
 .logo {
@@ -38,18 +36,23 @@ body {
 .photographer_section {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
-	gap: 2rem;
+	gap: 1rem;
 	margin: 2rem auto;
 	padding: 2rem;
 }
 
-@media screen and (max-width: var(--breakpoint-desktop)) {
+@media screen and (max-width: 1024px) {
 	.photographer_section {
 		grid-template-columns: repeat(2, 1fr);
 	}
 }
 
-@media screen and (max-width: var(--breakpoint-tablet)) {
+@media screen and (max-width: 768px) {
+	.header {
+		flex-direction: column;
+
+		align-items: center;
+	}
 	.photographer_section {
 		grid-template-columns: 1fr;
 	}
@@ -59,13 +62,14 @@ body {
 .item-link {
 	display: flex;
 	flex-direction: column;
-	align-items: center;
+	align-items: stretch;
 	text-decoration: none;
-	justify-content: center;
+	justify-content: space-between;
 	border: 1px solid var(--text-color-secondary);
 	border-radius: 10px;
 	padding: 10px;
 	transition: transform 0.3s ease;
+	height: 100%;
 }
 
 .gallery-item:hover,
@@ -81,6 +85,13 @@ body {
 	border-radius: 50%;
 	margin: 1rem auto;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.item-title,
+.item-city,
+.item-tagline,
+.photo-price {
+	width: 100%;
 }
 
 .item-title {

@@ -6,34 +6,32 @@ function photographerFactory(data) {
 		const article = document.createElement('article');
 		article.classList.add('gallery-item');
 
-		const img = document.createElement('img');
-		img.setAttribute('src', picture);
-		img.classList.add('item-portrait');
-
-		const h2 = document.createElement('h2');
-		h2.textContent = name;
-		h2.classList.add('item-title');
-
-		const pCity = document.createElement('p');
-		pCity.textContent = city;
-		pCity.classList.add('item-city');
-
-		const pTagline = document.createElement('p');
-		pTagline.textContent = tagline;
-		pTagline.classList.add('item-tagline');
-
-		const pPrice = document.createElement('p');
-		pPrice.textContent = `$${price}/hour`;
-		pPrice.classList.add('photo-price');
-
 		const a = document.createElement('a');
 		a.href = `photographer.html?id=${id}`;
-		a.appendChild(img);
-		a.appendChild(h2);
-		a.appendChild(pCity);
-		a.appendChild(pTagline);
-		a.appendChild(pPrice);
+		a.classList.add('item-link');
 
+		const img = document.createElement('img');
+		img.src = picture;
+		img.classList.add('item-portrait', 'loading');
+		img.addEventListener('load', () => img.classList.add('loaded'));
+
+		const h2 = document.createElement('h2');
+		h2.classList.add('item-title');
+		h2.innerText = name;
+
+		const pCity = document.createElement('p');
+		pCity.classList.add('item-city');
+		pCity.innerText = city;
+
+		const pTagline = document.createElement('p');
+		pTagline.classList.add('item-tagline');
+		pTagline.innerText = tagline;
+
+		const pPrice = document.createElement('p');
+		pPrice.classList.add('photo-price');
+		pPrice.innerText = `$${price}/hour`;
+
+		a.append(img, h2, pCity, pTagline, pPrice);
 		article.appendChild(a);
 
 		return article;

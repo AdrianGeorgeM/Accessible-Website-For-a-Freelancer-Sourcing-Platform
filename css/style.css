@@ -1,15 +1,8 @@
 :root {
 	--primary-color: #101726;
 	--secondary-color: #ffffff;
-	--tertiary-color: #97999c;
-	--quaternary-color: #6b6b6b;
 	--text-color: #901c1c;
 	--text-color-secondary: #d3573c;
-	--placeholder-color: #999999;
-	--border-color: #e5e5e5;
-	--background-color: #fafafa;
-	--spacing: 2rem;
-	--border-radius: 5px;
 }
 
 * {
@@ -24,17 +17,10 @@ body {
 
 .header {
 	background-color: var(--primary-color);
-	color: white;
+	color: var(--secondary-color);
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
-}
-
-.header-content {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	gap: 1rem;
 }
 
 .logo {
@@ -44,22 +30,23 @@ body {
 .photographer_section {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
-	grid-gap: var(--spacing);
-	margin: var(--spacing) auto;
-	padding: var(--spacing);
+	gap: 2rem;
+	margin: 2rem auto;
+	padding: 2rem;
 }
 
-.gallery-item {
-	text-align: center;
-}
-
+.gallery-item,
 .item-link {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 	text-decoration: none;
 }
 
 .item-portrait {
 	width: 180px;
 	height: 180px;
+	object-fit: cover;
 	border-radius: 50%;
 	margin: 1rem auto;
 }
@@ -79,7 +66,7 @@ body {
 .item-tagline {
 	font-size: 0.8rem;
 	font-weight: bold;
-	color: black;
+	color: var(--primary-color);
 }
 
 .photo-price {
@@ -100,21 +87,20 @@ body {
 }
 
 .modal-content {
-	background-color: #fefefe;
+	background-color: var(--secondary-color);
 	margin: 15% auto;
 	padding: 20px;
-	border: 1px solid #888;
+	border: 1px solid #e5e5e5;
 	width: 80%;
 }
 
 .submit-btn,
 .close-btn {
 	background-color: var(--primary-color);
-	color: white;
+	color: var(--secondary-color);
 	border: none;
-	border-radius: var(--border-radius);
+	border-radius: 5px;
 	padding: 10px 20px;
-	text-decoration: none;
 	cursor: pointer;
 	transition: background 0.3s ease;
 }

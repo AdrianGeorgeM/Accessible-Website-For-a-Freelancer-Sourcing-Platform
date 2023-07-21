@@ -3,6 +3,8 @@
 	--secondary-color: #ffffff;
 	--text-color: #901c1c;
 	--text-color-secondary: #d3573c;
+	--breakpoint-tablet: 768px;
+	--breakpoint-mobile: 480px;
 }
 
 * {
@@ -13,17 +15,21 @@
 
 body {
 	font-family: 'DM Sans', sans-serif;
+	background-color: var(--primary-color);
+	color: var(--secondary-color);
 }
 
 .header {
-	background-color: var(--primary-color);
-	color: var(--secondary-color);
 	display: flex;
-	justify-content: space-around;
+	justify-content: space-between;
 	align-items: center;
+	padding: 20px;
+	background-color: var(--secondary-color);
+	color: var(--primary-color);
 }
 
 .logo {
+	width: 100%;
 	max-width: 150px;
 }
 
@@ -35,16 +41,39 @@ body {
 	padding: 2rem;
 }
 
+@media screen and (max-width: var(--breakpoint-tablet)) {
+	.photographer_section {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+@media screen and (max-width: var(--breakpoint-mobile)) {
+	.photographer_section {
+		grid-template-columns: 1fr;
+	}
+}
+
 .gallery-item,
 .item-link {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	text-decoration: none;
+	justify-content: center;
+	border: 1px solid var(--text-color-secondary);
+	border-radius: 10px;
+	padding: 10px;
+	transition: transform 0.3s ease;
+}
+
+.gallery-item:hover,
+.item-link:hover {
+	transform: scale(1.05);
 }
 
 .item-portrait {
-	width: 180px;
+	width: 100%;
+	max-width: 180px;
 	height: 180px;
 	object-fit: cover;
 	border-radius: 50%;
@@ -66,46 +95,10 @@ body {
 .item-tagline {
 	font-size: 0.8rem;
 	font-weight: bold;
-	color: var(--primary-color);
+	color: var(--secondary-color);
 }
 
 .photo-price {
 	margin: 0.5rem auto;
 	font-size: 1rem;
-}
-
-#contact-modal {
-	display: none;
-	position: fixed;
-	z-index: 1;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	overflow: auto;
-	background-color: rgba(0, 0, 0, 0.4);
-}
-
-.modal-content {
-	background-color: var(--secondary-color);
-	margin: 15% auto;
-	padding: 20px;
-	border: 1px solid #e5e5e5;
-	width: 80%;
-}
-
-.submit-btn,
-.close-btn {
-	background-color: var(--primary-color);
-	color: var(--secondary-color);
-	border: none;
-	border-radius: 5px;
-	padding: 10px 20px;
-	cursor: pointer;
-	transition: background 0.3s ease;
-}
-
-.submit-btn:hover,
-.close-btn:hover {
-	background-color: darken(var(--primary-color), 10%);
 }

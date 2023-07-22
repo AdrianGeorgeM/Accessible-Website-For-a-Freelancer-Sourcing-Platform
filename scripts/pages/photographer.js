@@ -21,14 +21,22 @@ const handleKeyboardEvents = (event) => {
 	const { key } = event;
 	const mediaItems = document.querySelectorAll('.photo-item');
 	const currentLightbox = document.querySelector('.lightbox');
-	const currentIndex = Array.from(mediaItems).indexOf(currentLightbox.firstChild);
+
+	// If there's no lightbox currently displayed, ignore the keyboard events
+	if (!currentLightbox) return;
+
+	const currentIndex = Array.from(mediaItems).indexOf(
+		Array.from(currentLightbox.querySelector('.lightbox-content').children).find(
+			(child) => child.classList.contains('lightbox-image')
+		)
+	);
 
 	switch (key) {
 		case 'ArrowLeft':
-			showPrevImage(currentIndex);
+			showPrevImage(currentIndex, currentLightbox);
 			break;
 		case 'ArrowRight':
-			showNextImage(currentIndex, mediaItems.length);
+			showNextImage(currentIndex, mediaItems.length, currentLightbox);
 			break;
 		case 'Escape':
 			currentLightbox.remove();

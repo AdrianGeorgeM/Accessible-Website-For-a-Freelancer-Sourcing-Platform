@@ -1,3 +1,4 @@
+// Import necessary components and utils
 import { generateGallery, handleSort } from '../utils/gallery.js';
 import { showLightbox, showPrevImage, showNextImage } from '../utils/lightbox.js';
 import {
@@ -5,6 +6,7 @@ import {
 	showContactForm,
 	hideContactForm,
 } from '../utils/form.js';
+import { debounce } from '../utils/debounce.js'; // Import debounce function
 
 // Cache DOM elements
 const elements = {
@@ -14,18 +16,19 @@ const elements = {
 	contactForm: document.getElementById('contact-form'),
 	contactButton: document.getElementById('contact-button'),
 	closeModalButton: document.getElementById('close-modal-button'),
+	mediaItems: document.querySelectorAll('.photo-item'),
 };
 
 // Handling Keyboard Events
-const handleKeyboardEvents = (event) => {
+const handleKeyboardEvents = debounce((event) => {
+	// Apply debounce here
 	const { key } = event;
-	const mediaItems = document.querySelectorAll('.photo-item');
 	const currentLightbox = document.querySelector('.lightbox');
 
 	// If there's no lightbox currently displayed, ignore the keyboard events
 	if (!currentLightbox) return;
 
-	const currentIndex = Array.from(mediaItems).indexOf(
+	const currentIndex = Array.from(elements.mediaItems).indexOf(
 		Array.from(currentLightbox.querySelector('.lightbox-content').children).find(
 			(child) => child.classList.contains('lightbox-image')
 		)
@@ -36,13 +39,13 @@ const handleKeyboardEvents = (event) => {
 			showPrevImage(currentIndex, currentLightbox);
 			break;
 		case 'ArrowRight':
-			showNextImage(currentIndex, mediaItems.length, currentLightbox);
+			showNextImage(currentIndex, elements.mediaItems.length, currentLightbox);
 			break;
 		case 'Escape':
 			currentLightbox.remove();
 			break;
 	}
-};
+}, 300);
 
 // Handling Gallery Clicks
 const handleGalleryClicks = (event) => {
@@ -62,7 +65,8 @@ const initializeEventListeners = () => {
 	elements.closeModalButton.addEventListener('click', hideContactForm);
 
 	document.addEventListener('DOMContentLoaded', () => {
-		const lightboxTriggers = document.querySelectorAll('.lightbox-trigger');
+		// No need to query DOM again for lightbox triggers
+		const lightboxTriggers = elements.mediaItems;
 		lightboxTriggers.forEach((trigger) => {
 			trigger.addEventListener('click', showLightbox);
 		});

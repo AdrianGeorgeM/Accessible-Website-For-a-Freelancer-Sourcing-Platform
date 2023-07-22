@@ -5,30 +5,50 @@ function getIdFromURL() {
 	return parseInt(urlParams.get('id'));
 }
 
+function createElement(type, { textContent, classNames, attributes } = {}) {
+	const element = document.createElement(type);
+
+	if (textContent) {
+		element.textContent = textContent;
+	}
+
+	if (classNames) {
+		classNames.forEach((className) => element.classList.add(className));
+	}
+
+	if (attributes) {
+		for (let [attr, value] of Object.entries(attributes)) {
+			element.setAttribute(attr, value);
+		}
+	}
+
+	return element;
+}
+
 function createProfileItem(item) {
-	const galleryItem = document.createElement('div');
-	galleryItem.classList.add('gallery-item');
+	const galleryItem = createElement('div', { classNames: ['gallery-item'] });
+	const children = [
+		createElement('img', {
+			classNames: ['item-portrait'],
+			attributes: {
+				src: `assets/photographers/${item.portrait}`,
+			},
+		}),
+		createElement('h3', {
+			textContent: item.name,
+			classNames: ['item-title'],
+		}),
+		createElement('p', {
+			textContent: item.city,
+			classNames: ['item-city'],
+		}),
+		createElement('p', {
+			textContent: item.tagline,
+			classNames: ['item-tagline'],
+		}),
+	];
 
-	const title = document.createElement('h3');
-	title.textContent = item.name;
-	title.classList.add('item-title');
-
-	const city = document.createElement('p');
-	city.textContent = item.city;
-	city.classList.add('item-city');
-
-	const tagline = document.createElement('p');
-	tagline.textContent = item.tagline;
-	tagline.classList.add('item-tagline');
-
-	const portrait = document.createElement('img');
-	portrait.setAttribute('src', `assets/photographers/${item.portrait}`);
-	portrait.classList.add('item-portrait');
-
-	galleryItem.appendChild(portrait);
-	galleryItem.appendChild(title);
-	galleryItem.appendChild(city);
-	galleryItem.appendChild(tagline);
+	children.forEach((child) => galleryItem.appendChild(child));
 
 	return galleryItem;
 }

@@ -11,66 +11,39 @@ const createElement = (type, classNames, content, src = null) => {
 	return element;
 };
 
-const createProfileItem = ({ name, city, tagline, portrait }) => {
-	const galleryItem = createElement('div', ['gallery-item']);
-	const elements = [
-		createElement('img', ['item-portrait'], null, `assets/photographers/${portrait}`),
-		createElement('h3', ['item-title'], name),
-		createElement('p', ['item-city'], city),
-		createElement('p', ['item-tagline'], tagline),
-	];
-
-	elements.forEach((el) => galleryItem.appendChild(el));
-	return galleryItem;
-};
-
-const createMediaItem = ({
-	title,
-	likes,
-	price,
-	image,
-	video,
-	name,
-	photographerName,
-}) => {
+const createPhotoItem = ({ title, likes, price, image, photographerName }) => {
 	const photoItem = createElement('div', ['photo-item']);
+	const photo = createElement(
+		'img',
+		['photo'],
+		null,
+		`assets/photographers/${photographerName}/${image}`
+	);
+	photo.setAttribute('alt', title);
 
-	let media;
-	if (image) {
-		const mediaSource = `assets/photographers/${photographerName}/${image}`;
-		media = createElement('img', ['photo'], null, mediaSource);
-		media.setAttribute('alt', name);
-	} else if (video) {
-		media = document.createElement('video');
-		media.classList.add('photo');
-		media.setAttribute('controls', '');
-
-		const source = document.createElement('source');
-		source.setAttribute('src', `assets/photographers/${photographerName}/${video}`);
-		source.setAttribute('type', 'video/mp4');
-
-		media.appendChild(source);
-		media.addEventListener('error', (e) => {
-			console.error('Video error:', e);
-		});
-	}
-
-	const like = createElement('p', ['photo-likes'], likes.toString());
+	const photoLikesContainer = createElement('div', ['photo-likes-container']);
 	const likeIcon = createElement('span', ['like-icon'], '♥');
+	const photoLikes = createElement('p', ['photo-likes'], likes.toString());
 	likeIcon.addEventListener('click', () => {
-		like.textContent = (parseInt(like.textContent) + 1).toString();
+		photoLikes.textContent = (parseInt(photoLikes.textContent) + 1).toString();
 	});
 
-	const elements = [
-		media,
-		createElement('h3', ['photo-title'], title),
-		like,
-		likeIcon,
-		createElement('p', ['photo-price'], price),
-		createElement('span', ['lightbox-trigger'], 'View'),
-	];
+	photoLikesContainer.appendChild(likeIcon);
+	photoLikesContainer.appendChild(photoLikes);
 
-	elements.forEach((el) => photoItem.appendChild(el));
+	const photoDetails = createElement('div', ['photo-details']);
+	const photoTitle = createElement('h3', ['photo-title'], title);
+	const photoPrice = createElement('p', ['photo-price'], `Price: $${price}`);
+	photoDetails.appendChild(photoTitle);
+	photoDetails.appendChild(photoPrice);
+
+	const lightboxTrigger = createElement('span', ['lightbox-trigger'], 'View');
+
+	photoItem.appendChild(photo);
+	photoItem.appendChild(photoLikesContainer);
+	photoItem.appendChild(photoDetails);
+	photoItem.appendChild(lightboxTrigger);
+
 	return photoItem;
 };
 
@@ -82,7 +55,7 @@ const generateGallery = async (sortBy) => {
 		if (!photographer) throw new Error(`No photographer found with ID ${photographerId}`);
 
 		const mediaItems = media.filter(
-			(item) => item.photographerId === photographerId && (item.image || item.video)
+			(item) => item.photographerId === photographerId && item.image
 		);
 		const sortMap = {
 			popularity: (a, b) => b.likes - a.likes,
@@ -92,16 +65,13 @@ const generateGallery = async (sortBy) => {
 		};
 		if (sortMap[sortBy]) mediaItems.sort(sortMap[sortBy]);
 
-		const galleryItems = [
-			createProfileItem(photographer),
-			...mediaItems.map((item) =>
-				createMediaItem({ ...item, photographerName: photographer.name })
-			),
-		];
-
-		const galleryContainer = createElement('div', ['gallery']);
-		galleryItems.forEach((item) => galleryContainer.appendChild(item));
-		return galleryContainer;
+		const galleryContainer = document.querySelector('.gallery-container');
+		galleryContainer.innerHTML = '';
+		mediaItems.forEach((item) =>
+			galleryContainer.appendChild(
+				createPhotoItem({ ...item, photographerName: photographer.name })
+			)
+		);
 	} catch (error) {
 		console.error('Error generating gallery:', error);
 	}
@@ -109,10 +79,7 @@ const generateGallery = async (sortBy) => {
 
 const handleSort = async () => {
 	const sortBy = document.getElementById('sort-by').value;
-	const gallery = await generateGallery(sortBy);
-	const galleryContainer = document.querySelector('.gallery-container');
-	galleryContainer.innerHTML = '';
-	galleryContainer.appendChild(gallery);
+	await generateGallery(sortBy);
 };
 
-export { getIdFromURL, createProfileItem, createMediaItem, generateGallery, handleSort };
+export { getIdFromURL, createPhotoItem, generateGallery, handleSort };

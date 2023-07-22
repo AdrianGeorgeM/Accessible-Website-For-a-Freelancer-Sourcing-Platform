@@ -52,15 +52,17 @@ function showLightbox() {
 	lightbox.appendChild(createMediaElement(mediaElement, mediaTitleText));
 
 	lightbox.appendChild(
-		createButton('lightbox-close', '&#x2716;', () => lightbox.remove())
+		createButton('lightbox-close', '<i class="fas fa-times"></i>', () =>
+			lightbox.remove()
+		)
 	);
 	lightbox.appendChild(
-		createButton('lightbox-previous', '&#10094;', () =>
+		createButton('lightbox-previous', '<i class="fas fa-arrow-left"></i>', () =>
 			showPrevImage(currentIndex, lightbox)
 		)
 	);
 	lightbox.appendChild(
-		createButton('lightbox-next', '&#10095;', () =>
+		createButton('lightbox-next', '<i class="fas fa-arrow-right"></i>', () =>
 			showNextImage(currentIndex, mediaItems.length, lightbox)
 		)
 	);

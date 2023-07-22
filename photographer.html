@@ -5,6 +5,14 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>Photographer Page</title>
 		<link rel="stylesheet" href="css/photographer.css" />
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+		/>
 	</head>
 	<body>
 		<header class="header">
@@ -13,17 +21,20 @@
 		</header>
 		<main>
 			<section class="media-gallery">
-				<label for="sort-by">Sort By:</label>
-				<select id="sort-by">
-					<option value="popularity">Popularity</option>
-					<option value="title">Title</option>
-					<option value="date">Date</option>
-					<option value="price">Price</option>
-				</select>
-				<div class="gallery-container"></div>
-			</section>
+				<div class="sort-container">
+					<label for="sort-by" class="sort-label">Sort By:</label>
+					<div class="select-container">
+						<select id="sort-by" class="dropdown">
+							<option value="popularity">Popularity</option>
+							<option value="title">Title</option>
+							<option value="date">Date</option>
+							<option value="price">Price</option>
+						</select>
+					</div>
+				</div>
 
-			<button id="contact-button" class="contact-button">Contact Photographer</button>
+				<div class="gallery-container"></div>
+				<!-- 	<button id="contact-button" class="contact-button">Contact Photographer</button>
 
 			<div id="contact-modal" class="modal">
 				<div class="modal-content">
@@ -42,7 +53,8 @@
 					</form>
 					<button id="close-modal-button">Close</button>
 				</div>
-			</div>
+			</div> -->
+			</section>
 		</main>
 
 		<script src="scripts/pages/photographer.js" type="module"></script>

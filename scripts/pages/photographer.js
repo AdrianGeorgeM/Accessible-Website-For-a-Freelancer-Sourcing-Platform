@@ -6,7 +6,7 @@ import {
 	showContactForm,
 	hideContactForm,
 } from '../utils/form.js';
-import { debounce } from '../utils/debounce.js'; // Import debounce function
+import { debounce } from '../utils/debounce.js';
 
 // Cache DOM elements
 const elements = {
@@ -21,7 +21,6 @@ const elements = {
 
 // Handling Keyboard Events
 const handleKeyboardEvents = debounce((event) => {
-	// Apply debounce here
 	const { key } = event;
 	const currentLightbox = document.querySelector('.lightbox');
 
@@ -56,30 +55,41 @@ const handleGalleryClicks = (event) => {
 };
 
 // Initializing Event Listeners
+
 const initializeEventListeners = () => {
-	elements.sortBy.addEventListener('change', handleSort);
+	if (elements.sortBy) elements.sortBy.addEventListener('change', handleSort);
 	document.addEventListener('keydown', handleKeyboardEvents);
-	elements.galleryContainer.addEventListener('click', handleGalleryClicks);
-	elements.contactForm.addEventListener('submit', handleContactFormSubmit);
-	elements.contactButton.addEventListener('click', showContactForm);
-	elements.closeModalButton.addEventListener('click', hideContactForm);
+	if (elements.galleryContainer)
+		elements.galleryContainer.addEventListener('click', handleGalleryClicks);
+	if (elements.contactForm)
+		elements.contactForm.addEventListener('submit', handleContactFormSubmit);
+	if (elements.contactButton)
+		elements.contactButton.addEventListener('click', showContactForm);
+	if (elements.closeModalButton)
+		elements.closeModalButton.addEventListener('click', hideContactForm);
 
 	document.addEventListener('DOMContentLoaded', () => {
 		// No need to query DOM again for lightbox triggers
 		const lightboxTriggers = elements.mediaItems;
 		lightboxTriggers.forEach((trigger) => {
-			trigger.addEventListener('click', showLightbox);
+			if (trigger) trigger.addEventListener('click', showLightbox);
 		});
 	});
 };
-
-// Generate Gallery
 const initializeGallery = async () => {
 	try {
 		const gallery = await generateGallery('popularity');
-		elements.galleryContainer.appendChild(gallery);
-		elements.photographerName.textContent =
-			gallery.firstChild.querySelector('.item-title').textContent;
+		if (gallery && elements.galleryContainer) {
+			elements.galleryContainer.appendChild(gallery);
+		}
+		if (
+			gallery &&
+			gallery.firstChild &&
+			gallery.firstChild.querySelector('.item-title')
+		) {
+			elements.photographerName.textContent =
+				gallery.firstChild.querySelector('.item-title').textContent;
+		}
 	} catch (error) {
 		console.error('Error generating gallery:', error);
 	}

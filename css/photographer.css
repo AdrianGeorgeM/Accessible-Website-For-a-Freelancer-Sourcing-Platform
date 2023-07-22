@@ -221,7 +221,7 @@ body {
 .gallery-container {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-	grid-template-columns: repeat(3, 1fr);
+	/* grid-template-columns: repeat(3, 1fr); */
 	grid-gap: 30px;
 }
 
@@ -343,24 +343,27 @@ body {
 .lightbox-content {
 	position: relative;
 	width: 80vw;
-	height: 80vh;
+	height: 80%;
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-start;
 	align-items: center;
 	padding: var(--spacing);
-	background-color: var(--color-light);
+	background: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
+
 	border-radius: var(--border-radius);
 	box-shadow: 0 0 20px var(--shadow-color);
 	transition: transform 0.3s ease-in-out;
 	overflow: auto;
 	border: none;
+	overflow: hidden;
 }
 
 .lightbox img {
 	width: 100%;
-	max-height: 70vh;
-	object-fit: cover;
+	/* max-height: 70vh; */
+	height: 90%;
+	object-fit: contain;
 	border-radius: 0;
 	transition: all 0.5s ease-in-out;
 }

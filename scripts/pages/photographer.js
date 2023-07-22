@@ -6,60 +6,72 @@ import {
 	hideContactForm,
 } from '../utils/form.js';
 
-document.getElementById('sort-by').addEventListener('change', handleSort);
+// Cache DOM elements
+const elements = {
+	sortBy: document.getElementById('sort-by'),
+	galleryContainer: document.querySelector('.gallery-container'),
+	photographerName: document.getElementById('photographer-name'),
+	contactForm: document.getElementById('contact-form'),
+	contactButton: document.getElementById('contact-button'),
+	closeModalButton: document.getElementById('close-modal-button'),
+};
 
-generateGallery('popularity')
-	.then((gallery) => {
-		const galleryContainer = document.querySelector('.gallery-container');
-		if (!galleryContainer) {
-			console.error('Cannot find element with class name "gallery-container".');
-		} else {
-			galleryContainer.appendChild(gallery);
-		}
-
-		const photographerName = document.getElementById('photographer-name');
-		photographerName.textContent =
-			gallery.firstChild.querySelector('.item-title').textContent;
-	})
-	.catch((error) => {
-		console.error('Error generating gallery:', error);
-	});
-
-document.addEventListener('DOMContentLoaded', () => {
-	const lightboxTriggers = document.querySelectorAll('.lightbox-trigger');
-	lightboxTriggers.forEach((trigger) => {
-		trigger.addEventListener('click', showLightbox);
-	});
-});
-
-document.addEventListener('keydown', (event) => {
+// Handling Keyboard Events
+const handleKeyboardEvents = (event) => {
+	const { key } = event;
 	const mediaItems = document.querySelectorAll('.photo-item');
-
 	const currentLightbox = document.querySelector('.lightbox');
 	const currentIndex = Array.from(mediaItems).indexOf(currentLightbox.firstChild);
 
-	if (event.key === 'ArrowLeft') {
-		showPrevImage(currentIndex);
-	} else if (event.key === 'ArrowRight') {
-		showNextImage(currentIndex, mediaItems.length);
-	} else if (event.key === 'Escape') {
-		currentLightbox.remove();
+	switch (key) {
+		case 'ArrowLeft':
+			showPrevImage(currentIndex);
+			break;
+		case 'ArrowRight':
+			showNextImage(currentIndex, mediaItems.length);
+			break;
+		case 'Escape':
+			currentLightbox.remove();
+			break;
 	}
-});
+};
 
-const galleryContainer = document.querySelector('.gallery-container');
-galleryContainer.addEventListener('click', (event) => {
+// Handling Gallery Clicks
+const handleGalleryClicks = (event) => {
 	const lightboxTrigger = event.target.closest('.lightbox-trigger');
 	if (lightboxTrigger) {
 		showLightbox.call(lightboxTrigger);
 	}
-});
+};
 
-const contactForm = document.getElementById('contact-form');
-contactForm.addEventListener('submit', handleContactFormSubmit);
+// Initializing Event Listeners
+const initializeEventListeners = () => {
+	elements.sortBy.addEventListener('change', handleSort);
+	document.addEventListener('keydown', handleKeyboardEvents);
+	elements.galleryContainer.addEventListener('click', handleGalleryClicks);
+	elements.contactForm.addEventListener('submit', handleContactFormSubmit);
+	elements.contactButton.addEventListener('click', showContactForm);
+	elements.closeModalButton.addEventListener('click', hideContactForm);
 
-const contactButton = document.getElementById('contact-button');
-contactButton.addEventListener('click', showContactForm);
+	document.addEventListener('DOMContentLoaded', () => {
+		const lightboxTriggers = document.querySelectorAll('.lightbox-trigger');
+		lightboxTriggers.forEach((trigger) => {
+			trigger.addEventListener('click', showLightbox);
+		});
+	});
+};
 
-const closeModalButton = document.getElementById('close-modal-button');
-closeModalButton.addEventListener('click', hideContactForm);
+// Generate Gallery
+const initializeGallery = async () => {
+	try {
+		const gallery = await generateGallery('popularity');
+		elements.galleryContainer.appendChild(gallery);
+		elements.photographerName.textContent =
+			gallery.firstChild.querySelector('.item-title').textContent;
+	} catch (error) {
+		console.error('Error generating gallery:', error);
+	}
+};
+
+initializeGallery();
+initializeEventListeners();

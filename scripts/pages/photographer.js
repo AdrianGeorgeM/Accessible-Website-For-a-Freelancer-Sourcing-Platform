@@ -76,6 +76,8 @@ const initializeEventListeners = () => {
 		});
 	});
 };
+
+// Initializing Gallery
 const initializeGallery = async () => {
 	try {
 		const gallery = await generateGallery('popularity');
@@ -87,8 +89,9 @@ const initializeGallery = async () => {
 			gallery.firstChild &&
 			gallery.firstChild.querySelector('.item-title')
 		) {
-			elements.photographerName.textContent =
+			const photographerName =
 				gallery.firstChild.querySelector('.item-title').textContent;
+			elements.photographerName.textContent = photographerName;
 		}
 	} catch (error) {
 		console.error('Error generating gallery:', error);

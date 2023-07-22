@@ -17,12 +17,30 @@
 	<body>
 		<header class="header">
 			<img src="assets/images/logo.png" alt="Logo" class="logo" />
-			<h1 id="photographer-name">Photographer Name</h1>
 		</header>
+
+		<section class="photographer-info">
+			<div class="photographer-info-container">
+				<div class="photographer-image-container">
+					<img id="photographer-image" src="" alt="" />
+				</div>
+				<div class="photographer-details">
+					<h1 id="photographer-name"></h1>
+					<div class="photographer-info-container__city">
+						<i class="fas fa-map-marker-alt"></i>
+						<p id="photographer-city"></p>
+					</div>
+					<div class="photographer-info-container__tagline">
+						<p id="photographer-tagline"></p>
+					</div>
+				</div>
+			</div>
+		</section>
+
 		<main>
 			<section class="media-gallery">
 				<div class="sort-container">
-					<label for="sort-by" class="sort-label">Sort By:</label>
+					<label for="sort-by" class="sort-label">Order By:</label>
 					<div class="select-container">
 						<select id="sort-by" class="dropdown">
 							<option value="popularity">Popularity</option>

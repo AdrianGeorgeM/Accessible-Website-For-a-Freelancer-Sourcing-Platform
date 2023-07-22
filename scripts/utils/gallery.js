@@ -47,6 +47,7 @@ const createPhotoItem = ({ title, likes, price, image, photographerName }) => {
 	return photoItem;
 };
 
+// generateGallery function
 const generateGallery = async (sortBy) => {
 	try {
 		const { photographers, media } = await getPhotographers();
@@ -72,6 +73,26 @@ const generateGallery = async (sortBy) => {
 				createPhotoItem({ ...item, photographerName: photographer.name })
 			)
 		);
+
+		// Update the photographer's name
+		const photographerNameElement = document.getElementById('photographer-name');
+		photographerNameElement.textContent = photographer.name;
+
+		// Update the photographer's city
+		const photographerCityElement = document.getElementById('photographer-city');
+		photographerCityElement.textContent = photographer.city;
+
+		// Update the photographer's tagline
+		const photographerTaglineElement = document.getElementById('photographer-tagline');
+		photographerTaglineElement.textContent = photographer.tagline;
+
+		// Update the photographer's image
+		const photographerImageElement = document.getElementById('photographer-image');
+		photographerImageElement.setAttribute(
+			'src',
+			`assets/photographers/${photographer.name.replace(/\s+/g, '')}.jpg`
+		);
+		photographerImageElement.setAttribute('alt', photographer.name);
 	} catch (error) {
 		console.error('Error generating gallery:', error);
 	}

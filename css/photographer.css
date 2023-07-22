@@ -1,10 +1,11 @@
+/* Global Styles */
 :root {
-	--primary-color: #901c1c;
-	--secondary-color: #fff;
-	--font-family: 'DM Sans', sans-serif;
-	--header-height: 90px;
-	--spacing: 20px;
-	--border-radius: 5px;
+	--primary-color: #007bff;
+	--secondary-color: #f7f7f7;
+	--font-family: 'Roboto', sans-serif;
+	--header-height: 80px;
+	--spacing: 16px;
+	--border-radius: 8px;
 }
 
 body {
@@ -12,28 +13,37 @@ body {
 	margin: 0;
 }
 
+/* Header Styles */
 .header {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	height: var(--header-height);
-	padding: var(--spacing);
+	padding: 0 var(--spacing);
 	background-color: var(--secondary-color);
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .header h1 {
 	color: var(--primary-color);
-	font-size: 1.5rem;
+	font-size: 1.8rem;
+	margin: 0;
 }
 
 .logo {
 	height: 50px;
 }
 
+/* Media Gallery Styles */
 .media-gallery {
 	margin-top: 2rem;
-	border: 1px solid red;
+	padding: 0 var(--spacing);
+}
+
+.media-gallery h2 {
+	margin-bottom: 16px;
+	font-size: 1.5rem;
+	color: var(--primary-color);
 }
 
 .media-gallery label {
@@ -43,21 +53,30 @@ body {
 }
 
 .media-gallery select {
-	padding: 0.5rem 1rem;
+	padding: 8px 12px;
 	font-size: 1rem;
+	border: 1px solid #ccc;
+	border-radius: 4px;
 }
 
 .gallery-container {
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 	gap: var(--spacing);
+}
+
+.gallery-item {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 
 .item-portrait,
 .photo {
-	width: 200px;
+	width: 100%;
 	height: 200px;
 	object-fit: cover;
+	border-radius: var(--border-radius);
 }
 
 .photo-item {
@@ -66,13 +85,15 @@ body {
 }
 
 .photo-item .photo-title {
-	margin-top: 0.25rem;
+	margin-top: 8px;
 	font-size: 1rem;
+	font-weight: bold;
 }
 
 .photo-item .photo-likes {
-	margin-top: 0.25rem;
 	font-size: 0.875rem;
+	color: var(--primary-color);
+	margin-bottom: 0;
 }
 
 .photo-item .like-icon {
@@ -84,6 +105,7 @@ body {
 	cursor: pointer;
 }
 
+/* Modal Styles */
 .modal {
 	display: none;
 	position: fixed;
@@ -108,7 +130,7 @@ body {
 
 .modal-content h2 {
 	margin-top: 0;
-	font-size: 1.25rem;
+	font-size: 1.5rem;
 	color: var(--primary-color);
 }
 
@@ -122,17 +144,20 @@ body {
 .modal-content input,
 .modal-content textarea {
 	width: 100%;
-	padding: 0.5rem 1rem;
+	padding: 8px 12px;
 	font-size: 1rem;
 	margin-bottom: var(--spacing);
+	border: 1px solid #ccc;
+	border-radius: 4px;
 }
 
 .modal-content button {
-	padding: 1rem 2rem;
+	padding: 12px 24px;
 	background-color: var(--primary-color);
 	color: var(--secondary-color);
 	border: none;
 	cursor: pointer;
+	border-radius: var(--border-radius);
 }
 
 .modal-content button:focus {
@@ -147,11 +172,12 @@ body {
 	position: fixed;
 	bottom: var(--spacing);
 	right: var(--spacing);
-	padding: 1rem 2rem;
+	padding: 12px 24px;
 	background-color: var(--primary-color);
 	color: var(--secondary-color);
 	border: none;
 	cursor: pointer;
+	border-radius: var(--border-radius);
 }
 
 .contact-button:focus {
@@ -162,6 +188,7 @@ body {
 	transform: scale(0.98);
 }
 
+/* Lightbox Styles */
 .lightbox {
 	display: none;
 	position: fixed;
@@ -190,7 +217,7 @@ body {
 
 .lightbox img,
 .lightbox video {
-	max-width: 200px;
+	max-width: 100%;
 	max-height: 100%;
 	object-fit: contain;
 }

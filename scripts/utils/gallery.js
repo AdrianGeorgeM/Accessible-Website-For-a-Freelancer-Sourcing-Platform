@@ -1,162 +1,118 @@
 import { getPhotographers } from '../utils/getPhotographers.js';
 
-function getIdFromURL() {
-	const urlParams = new URLSearchParams(window.location.search);
-	return parseInt(urlParams.get('id'));
-}
+const getIdFromURL = () =>
+	parseInt(new URLSearchParams(window.location.search).get('id'));
 
-function createProfileItem(item) {
-	const galleryItem = document.createElement('div');
-	galleryItem.classList.add('gallery-item');
+const createElement = (type, classNames, content, src = null) => {
+	const element = document.createElement(type);
+	element.classList.add(...classNames);
+	if (content) element.textContent = content;
+	if (src) element.setAttribute('src', src);
+	return element;
+};
 
-	const title = document.createElement('h3');
-	title.textContent = item.name;
-	title.classList.add('item-title');
+const createProfileItem = ({ name, city, tagline, portrait }) => {
+	const galleryItem = createElement('div', ['gallery-item']);
+	const elements = [
+		createElement('img', ['item-portrait'], null, `assets/photographers/${portrait}`),
+		createElement('h3', ['item-title'], name),
+		createElement('p', ['item-city'], city),
+		createElement('p', ['item-tagline'], tagline),
+	];
 
-	const city = document.createElement('p');
-	city.textContent = item.city;
-	city.classList.add('item-city');
-
-	const tagline = document.createElement('p');
-	tagline.textContent = item.tagline;
-	tagline.classList.add('item-tagline');
-
-	const portrait = document.createElement('img');
-	portrait.setAttribute('src', `assets/photographers/${item.portrait}`);
-	portrait.classList.add('item-portrait');
-
-	galleryItem.appendChild(portrait);
-	galleryItem.appendChild(title);
-	galleryItem.appendChild(city);
-	galleryItem.appendChild(tagline);
-
+	elements.forEach((el) => galleryItem.appendChild(el));
 	return galleryItem;
-}
+};
 
-function createMediaItem(item) {
-	const photoItem = document.createElement('div');
-	photoItem.classList.add('photo-item');
+const createMediaItem = ({
+	title,
+	likes,
+	price,
+	image,
+	video,
+	name,
+	photographerName,
+}) => {
+	const photoItem = createElement('div', ['photo-item']);
 
-	const mediaType = item.image ? 'img' : 'video';
-	const media = document.createElement(mediaType);
-
-	const mediaSource = `assets/photographers/${item.photographerName}/${
-		item.image || item.video
-	}`;
-	media.setAttribute('src', mediaSource);
-	media.setAttribute('alt', item.name);
-	media.classList.add('photo');
-
-	if (mediaType === 'video') {
+	let media;
+	if (image) {
+		const mediaSource = `assets/photographers/${photographerName}/${image}`;
+		media = createElement('img', ['photo'], null, mediaSource);
+		media.setAttribute('alt', name);
+	} else if (video) {
+		media = document.createElement('video');
+		media.classList.add('photo');
 		media.setAttribute('controls', '');
+
+		const source = document.createElement('source');
+		source.setAttribute('src', `assets/photographers/${photographerName}/${video}`);
+		source.setAttribute('type', 'video/mp4');
+
+		media.appendChild(source);
+		media.addEventListener('error', (e) => {
+			console.error('Video error:', e);
+		});
 	}
 
-	const title = document.createElement('h3');
-	title.textContent = item.title;
-	title.classList.add('photo-title');
-
-	const likes = document.createElement('p');
-	likes.textContent = item.likes;
-	likes.classList.add('photo-likes');
-
-	const price = document.createElement('p');
-	price.textContent = item.price;
-	price.classList.add('photo-price');
-
-	const likeIcon = document.createElement('span');
-	likeIcon.classList.add('like-icon');
-	likeIcon.innerHTML = '&#x2665;';
-
+	const like = createElement('p', ['photo-likes'], likes.toString());
+	const likeIcon = createElement('span', ['like-icon'], '♥');
 	likeIcon.addEventListener('click', () => {
-		likes.textContent = parseInt(likes.textContent) + 1;
+		like.textContent = (parseInt(like.textContent) + 1).toString();
 	});
 
-	const lightboxTrigger = document.createElement('span');
-	lightboxTrigger.classList.add('lightbox-trigger');
-	lightboxTrigger.textContent = 'View';
+	const elements = [
+		media,
+		createElement('h3', ['photo-title'], title),
+		like,
+		likeIcon,
+		createElement('p', ['photo-price'], price),
+		createElement('span', ['lightbox-trigger'], 'View'),
+	];
 
-	photoItem.appendChild(media);
-	photoItem.appendChild(title);
-	photoItem.appendChild(likes);
-	photoItem.appendChild(likeIcon);
-	photoItem.appendChild(price);
-	photoItem.appendChild(lightboxTrigger);
-
+	elements.forEach((el) => photoItem.appendChild(el));
 	return photoItem;
-}
+};
 
-async function generateGallery(sortBy) {
-	const photographerId = getIdFromURL();
-
+const generateGallery = async (sortBy) => {
 	try {
 		const { photographers, media } = await getPhotographers();
+		const photographerId = getIdFromURL();
+		const photographer = photographers.find((p) => p.id === photographerId);
+		if (!photographer) throw new Error(`No photographer found with ID ${photographerId}`);
 
-		const photographer = photographers.find(
-			(photographer) => photographer.id === photographerId
+		const mediaItems = media.filter(
+			(item) => item.photographerId === photographerId && (item.image || item.video)
 		);
+		const sortMap = {
+			popularity: (a, b) => b.likes - a.likes,
+			title: (a, b) => a.title.localeCompare(b.title),
+			date: (a, b) => new Date(a.date) - new Date(b.date),
+			price: (a, b) => a.price - b.price,
+		};
+		if (sortMap[sortBy]) mediaItems.sort(sortMap[sortBy]);
 
-		if (!photographer) {
-			throw new Error(`No photographer found with ID ${photographerId}`);
-		}
+		const galleryItems = [
+			createProfileItem(photographer),
+			...mediaItems.map((item) =>
+				createMediaItem({ ...item, photographerName: photographer.name })
+			),
+		];
 
-		const galleryItems = [createProfileItem(photographer)];
-
-		const mediaItems = media
-			.filter(
-				(item) => item.photographerId === photographerId && (item.image || item.video)
-			)
-			.map((item) => ({
-				...item,
-				photographerName: photographer.name,
-			}));
-
-		// Sort media items
-		if (sortBy === 'popularity') {
-			mediaItems.sort((a, b) => b.likes - a.likes);
-		} else if (sortBy === 'title') {
-			mediaItems.sort((a, b) => a.title.localeCompare(b.title));
-		} else if (sortBy === 'date') {
-			mediaItems.sort((a, b) => new Date(a.date) - new Date(b.date));
-		} else if (sortBy === 'price') {
-			mediaItems.sort((a, b) => a.price - b.price);
-		}
-
-		console.log(
-			'Sorted media items:',
-			mediaItems.map((item) => ({
-				title: item.title,
-				likes: item.likes,
-				price: item.price,
-				date: item.date,
-			}))
-		);
-
-		const galleryContainer = document.createElement('div');
-		galleryContainer.classList.add('gallery');
-
-		const fragment = document.createDocumentFragment();
-		galleryItems.forEach((item) => {
-			fragment.appendChild(item);
-		});
-
-		galleryContainer.appendChild(fragment);
-
-		mediaItems.forEach((item) => {
-			galleryContainer.appendChild(createMediaItem(item));
-		});
-
+		const galleryContainer = createElement('div', ['gallery']);
+		galleryItems.forEach((item) => galleryContainer.appendChild(item));
 		return galleryContainer;
 	} catch (error) {
 		console.error('Error generating gallery:', error);
 	}
-}
+};
 
-async function handleSort() {
+const handleSort = async () => {
 	const sortBy = document.getElementById('sort-by').value;
 	const gallery = await generateGallery(sortBy);
 	const galleryContainer = document.querySelector('.gallery-container');
 	galleryContainer.innerHTML = '';
 	galleryContainer.appendChild(gallery);
-}
+};
 
 export { getIdFromURL, createProfileItem, createMediaItem, generateGallery, handleSort };

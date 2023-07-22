@@ -1,10 +1,4 @@
-import {
-	getIdFromURL,
-	createProfileItem,
-	createMediaItem,
-	generateGallery,
-	handleSort,
-} from '../utils/gallery.js';
+import { generateGallery, handleSort } from '../utils/gallery.js';
 import { showLightbox, showPrevImage, showNextImage } from '../utils/lightbox.js';
 import {
 	handleContactFormSubmit,

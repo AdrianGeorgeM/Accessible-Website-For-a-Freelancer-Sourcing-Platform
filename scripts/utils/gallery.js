@@ -10,16 +10,21 @@ const createElement = (type, classNames, content, src = null) => {
 	if (src) element.setAttribute('src', src);
 	return element;
 };
+const createMediaElement = (type, classNames, src = null, alt = null) => {
+	const element = document.createElement(type);
+	element.classList.add(...classNames);
+	if (src) element.setAttribute('src', src);
+	if (alt) element.setAttribute('alt', alt);
+	if (type === 'video') element.setAttribute('controls', '');
+	return element;
+};
 
-const createPhotoItem = ({ title, likes, price, image, photographerName }) => {
+const createPhotoItem = ({ title, likes, price, image, video, photographerName }) => {
 	const photoItem = createElement('div', ['photo-item']);
-	const photo = createElement(
-		'img',
-		['photo'],
-		null,
-		`assets/photographers/${photographerName}/${image}`
-	);
-	photo.setAttribute('alt', title);
+	const mediaType = image ? 'img' : 'video';
+	const mediaSource = `assets/photographers/${photographerName}/${image || video}`;
+
+	const media = createMediaElement(mediaType, ['photo'], mediaSource, title);
 
 	const photoLikesContainer = createElement('div', ['photo-likes-container']);
 	const likeIcon = createElement('span', ['like-icon'], '♥');
@@ -39,7 +44,7 @@ const createPhotoItem = ({ title, likes, price, image, photographerName }) => {
 
 	const lightboxTrigger = createElement('span', ['lightbox-trigger'], 'View');
 
-	photoItem.appendChild(photo);
+	photoItem.appendChild(media);
 	photoItem.appendChild(photoLikesContainer);
 	photoItem.appendChild(photoDetails);
 	photoItem.appendChild(lightboxTrigger);
@@ -47,7 +52,7 @@ const createPhotoItem = ({ title, likes, price, image, photographerName }) => {
 	return photoItem;
 };
 
-// generateGallery function
+// Generate the gallery based on the photographer ID
 const generateGallery = async (sortBy) => {
 	try {
 		const { photographers, media } = await getPhotographers();
@@ -56,8 +61,9 @@ const generateGallery = async (sortBy) => {
 		if (!photographer) throw new Error(`No photographer found with ID ${photographerId}`);
 
 		const mediaItems = media.filter(
-			(item) => item.photographerId === photographerId && item.image
+			(item) => item.photographerId === photographerId && (item.image || item.video)
 		);
+
 		const sortMap = {
 			popularity: (a, b) => b.likes - a.likes,
 			title: (a, b) => a.title.localeCompare(b.title),

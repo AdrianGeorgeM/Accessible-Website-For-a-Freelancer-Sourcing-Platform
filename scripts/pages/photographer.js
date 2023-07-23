@@ -102,3 +102,54 @@ const initializeGallery = async () => {
 
 initializeGallery();
 initializeEventListeners();
+function createMediaItem(item) {
+	const photoItem = document.createElement('div');
+	photoItem.classList.add('photo-item');
+
+	const mediaType = item.image ? 'img' : 'video';
+	const media = document.createElement(mediaType);
+
+	const mediaSource = `assets/photographers/${item.photographerName}/${
+		item.image || item.video
+	}`;
+	media.setAttribute('src', mediaSource);
+	media.setAttribute('alt', item.name);
+	media.classList.add('photo');
+
+	if (mediaType === 'video') {
+		media.setAttribute('controls', '');
+	}
+
+	const title = document.createElement('h3');
+	title.textContent = item.title;
+	title.classList.add('photo-title');
+
+	const likes = document.createElement('p');
+	likes.textContent = item.likes;
+	likes.classList.add('photo-likes');
+
+	const price = document.createElement('p');
+	price.textContent = item.price;
+	price.classList.add('photo-price');
+
+	const likeIcon = document.createElement('span');
+	likeIcon.classList.add('like-icon');
+	likeIcon.innerHTML = '&#x2665;';
+
+	likeIcon.addEventListener('click', () => {
+		likes.textContent = parseInt(likes.textContent) + 1;
+	});
+
+	const lightboxTrigger = document.createElement('span');
+	lightboxTrigger.classList.add('lightbox-trigger');
+	lightboxTrigger.textContent = 'View';
+
+	photoItem.appendChild(media);
+	photoItem.appendChild(title);
+	photoItem.appendChild(likes);
+	photoItem.appendChild(likeIcon);
+	photoItem.appendChild(price);
+	photoItem.appendChild(lightboxTrigger);
+
+	return photoItem;
+}

@@ -93,7 +93,6 @@ const generateGallery = async (sortBy) => {
 			`assets/photographers/${photographer.name.replace(/\s+/g, '')}.jpg`
 		);
 		photographerImageElement.setAttribute('alt', photographer.name);
-		console.log(photographerImageElement);
 	} catch (error) {
 		console.error('Error generating gallery:', error);
 	}

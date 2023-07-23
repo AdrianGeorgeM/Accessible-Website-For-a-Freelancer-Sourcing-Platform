@@ -55,7 +55,6 @@ const handleGalleryClicks = (event) => {
 };
 
 // Initializing Event Listeners
-
 const initializeEventListeners = () => {
 	if (elements.sortBy) elements.sortBy.addEventListener('change', handleSort);
 	document.addEventListener('keydown', handleKeyboardEvents);
@@ -65,6 +64,8 @@ const initializeEventListeners = () => {
 		elements.contactForm.addEventListener('submit', handleContactFormSubmit);
 	if (elements.contactButton)
 		elements.contactButton.addEventListener('click', showContactForm);
+	if (elements.closeModalButton)
+		elements.closeModalButton.addEventListener('click', hideContactForm);
 	if (elements.closeModalButton)
 		elements.closeModalButton.addEventListener('click', hideContactForm);
 
@@ -92,6 +93,7 @@ const initializeGallery = async () => {
 			const photographerName =
 				gallery.firstChild.querySelector('.item-title').textContent;
 			elements.photographerName.textContent = photographerName;
+			elements.contactButton.innerText = `Contact ${photographerName}`;
 		}
 	} catch (error) {
 		console.error('Error generating gallery:', error);

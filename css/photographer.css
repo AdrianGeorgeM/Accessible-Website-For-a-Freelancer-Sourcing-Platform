@@ -400,6 +400,11 @@ body {
 .lightbox-close,
 .lightbox-previous,
 .lightbox-next {
+	width: 70px;
+	height: 70px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	position: absolute;
 	font-size: 2.5rem;
 	color: var(--color-light);
@@ -412,7 +417,18 @@ body {
 	transition: all 0.5s;
 }
 
-.lightbox-close:hover,
+.lightbox-close:before,
+.lightbox-close:after {
+	transform: rotate(45deg);
+}
+
+.lightbox-close:hover {
+	background-color: #ff6347;
+	color: var(--color-dark);
+	transform: rotate(90deg);
+	box-shadow: 0px 0px 10px 5px #ff6347;
+}
+
 .lightbox-previous:hover,
 .lightbox-next:hover {
 	transform: scale(1.1);

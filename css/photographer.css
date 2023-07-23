@@ -170,7 +170,13 @@ body {
 	margin-bottom: 0.5rem;
 	text-shadow: 2px 2px 4px var(--shadow-color);
 	transition: color var(--transition-duration) ease-in-out,
-		text-shadow var(--transition-duration) ease-in-out;
+		text-shadow var(--transition-duration) ease-in-out,
+		linear-gradient(
+			120deg,
+			var(--hover-color),
+			var(--primary-color),
+			var(--highlight-color)
+		);
 }
 
 .photographer-info-container__city,
@@ -502,19 +508,70 @@ body {
 	width: 75%;
 	margin-bottom: 20px;
 	padding: 10px 20px;
-	font-size: 1.2em;
+	font-size: 1em;
 	color: var(--color-light);
-	background-color: var(--primary-color);
+	background: linear-gradient(to right, var(--primary-color), var(--highlight-color));
 	border: none;
 	border-radius: var(--border-radius);
 	cursor: pointer;
-	transition: all 0.3s ease;
-	box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+	transition: all 0.5s ease;
+	box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+	position: relative;
+	overflow: hidden;
+	z-index: 1;
+}
+
+#contact-button:before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: linear-gradient(
+		120deg,
+		var(--hover-color),
+		var(--primary-color),
+		var(--highlight-color)
+	);
+	z-index: -1;
+	transition: all 0.7s;
+	transform: scaleX(0);
+	transform-origin: left;
+}
+
+#contact-button:hover:before {
+	transform: scaleX(1);
+}
+
+#contact-button:active {
+	transform: scale(0.95);
+	box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#contact-button:focus {
+	outline: none;
 }
 
 #contact-button:hover {
-	background-color: var(--hover-color);
-	box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+	box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+	transform: translateY(-3px);
+}
+
+#contact-button:after {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 0;
+	height: 100%;
+	background: rgba(255, 255, 255, 0.1);
+	transition: width 0.7s;
+}
+
+#contact-button:hover:after {
+	width: 100%;
 }
 
 #contact-modal {
